@@ -273,14 +273,19 @@ namespace CodeReason.Reports
         {
             MemoryStream ms = new MemoryStream();
             Package pkg = Package.Open(ms, FileMode.Create, FileAccess.ReadWrite);
-            string pack = "pack://report.xps";
+            string pack = String.Format("pack://report{0}.xps", this.ReportName);
             PackageStore.RemovePackage(new Uri(pack));
             PackageStore.AddPackage(new Uri(pack), pkg);
             XpsDocument doc = new XpsDocument(pkg, CompressionOption.NotCompressed, pack);
             XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
+            DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
 
             ReportPaginator rp = new ReportPaginator(this, data);
             rsm.SaveAsXaml(rp);
+
+            rsm.Commit();
+            //pkg.Close();
+
             return doc;
         }
 
