@@ -115,6 +115,7 @@
     <Compile Include="Document\TableRowForDataTable.cs" />
     <Compile Include="InlineHasValue.cs" />
     <Compile Include="ReportPaginatorStaticCache.cs" />
+    <Compile Include="ReportWorkspace.cs" />
     <Compile Include="XamlHelper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

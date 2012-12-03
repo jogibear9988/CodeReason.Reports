@@ -49,39 +49,39 @@ namespace SimpleReport
             {
                 try
                 {
-                    ReportDocument reportDocument = new ReportDocument();
 
-                    StreamReader reader = new StreamReader(new FileStream(@"Templates\SimpleReport.xaml", FileMode.Open, FileAccess.Read));
-                    reportDocument.XamlData = reader.ReadToEnd();
-                    reportDocument.XamlImagePath = Path.Combine(Environment.CurrentDirectory, @"Templates\");
-                    reader.Close();
-
-                    ReportData data = new ReportData();
-
-                    // set constant document values
-                    data.ReportDocumentValues.Add("PrintDate", DateTime.Now); // print date is now
-
-                    // sample table "Ean"
-                    DataTable table = new DataTable("Ean");
-                    table.Columns.Add("Position", typeof(string));
-                    table.Columns.Add("Item", typeof(string));
-                    table.Columns.Add("EAN", typeof(string));
-                    table.Columns.Add("Count", typeof(int));
-                    Random rnd = new Random(1234);
-                    for (int i = 1; i <= 100; i++)
+                    using (var workspace = new ReportWorkspace(Environment.CurrentDirectory))
                     {
-                        // randomly create some items
-                        table.Rows.Add(new object[] { i, "Item " + i.ToString("0000"), "123456790123", rnd.Next(9) + 1 });
+                        workspace.DocumentViewer = documentViewer;
+                        var reportDocument = workspace.LoadReport(@"Templates\SimpleReport.xaml");
+
+                        ReportData data = new ReportData();
+
+                        // set constant document values
+                        data.ReportDocumentValues.Add("PrintDate", DateTime.Now); // print date is now
+
+                        // sample table "Ean"
+                        DataTable table = new DataTable("Ean");
+                        table.Columns.Add("Position", typeof(string));
+                        table.Columns.Add("Item", typeof(string));
+                        table.Columns.Add("EAN", typeof(string));
+                        table.Columns.Add("Count", typeof(int));
+                        Random rnd = new Random(1234);
+                        for (int i = 1; i <= 100; i++)
+                        {
+                            // randomly create some items
+                            table.Rows.Add(new object[] { i, "Item " + i.ToString("0000"), "123456790123", rnd.Next(9) + 1 });
+                        }
+                        data.DataTables.Add(table);
+
+                        DateTime dateTimeStart = DateTime.Now; // start time measure here
+
+                        workspace.PreviewReport(reportDocument, data);
+
+                        // show the elapsed time in window title
+                        Title += " - generated in " + (DateTime.Now - dateTimeStart).TotalMilliseconds + "ms";
+
                     }
-                    data.DataTables.Add(table);
-
-                    DateTime dateTimeStart = DateTime.Now; // start time measure here
-
-                    XpsDocument xps = reportDocument.CreateXpsDocument(data);
-                    documentViewer.Document = xps.GetFixedDocumentSequence();
-
-                    // show the elapsed time in window title
-                    Title += " - generated in " + (DateTime.Now - dateTimeStart).TotalMilliseconds + "ms";
                 }
                 catch (Exception ex)
                 {
