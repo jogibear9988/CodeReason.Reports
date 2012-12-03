@@ -86,8 +86,9 @@
                 <TableColumn Width="0.5*" />
                 <TableColumn Width="2*" />
                 <TableColumn Width="0.7*" />
-                <TableColumn Width="0.3*" />
+                <TableColumn Width="0.35*" />
                 <TableColumn Width="0.7*" />
+                <TableColumn Width="0.35*" />
                 <TableColumn Width="0.5*" />
             </Table.Columns>
             <TableRowGroup Style="{StaticResource headerFooterRowStyle}">
@@ -115,6 +116,11 @@
                     <TableCell>
                         <Paragraph TextAlignment="Center">
                             <Bold>Pdf417</Bold>
+                        </Paragraph>
+                    </TableCell>
+                    <TableCell>
+                        <Paragraph TextAlignment="Center">
+                            <Bold>Datamatrix</Bold>
                         </Paragraph>
                     </TableCell>
                     <TableCell>
@@ -148,7 +154,12 @@
                     </TableCell>
                     <TableCell>
                         <Paragraph>
-                            <xrbc:TableCellBarcodeZenFramework PropertyName="EAN" Width="1cm" Height="1cm" BarcodeSymbology="CodePdf417"  />
+                            <xrbc:TableCellBarcodeZenFramework PropertyName="EAN" Width="2.5cm" Height="1cm" BarcodeSymbology="CodePdf417"  />
+                        </Paragraph>
+                    </TableCell>
+                    <TableCell>
+                        <Paragraph>
+                            <xrbc:TableCellBarcodeDataMatrix PropertyName="EAN" Width="1cm" Height="1cm" />
                         </Paragraph>
                     </TableCell>
                     <TableCell>
