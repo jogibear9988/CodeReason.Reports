@@ -198,14 +198,15 @@ namespace CodeReason.Reports
                 ReportProperties prop = properties[0];
                 if (prop.ReportName != null) ReportName = prop.ReportName;
                 if (prop.ReportTitle != null) ReportTitle = prop.ReportTitle;
-                if (headers.Count > 0) PageHeaderHeight = headers[0].PageHeaderHeight;
-                if (footers.Count > 0) PageFooterHeight = footers[0].PageFooterHeight;
-
+                
                 // remove properties section from FlowDocument
                 DependencyObject parent = prop.Parent;
                 if (parent is FlowDocument) { ((FlowDocument)parent).Blocks.Remove(prop); parent = null; }
                 if (parent is Section) { ((Section)parent).Blocks.Remove(prop); }
             }
+
+            if (headers.Count > 0) PageHeaderHeight = headers[0].PageHeaderHeight;
+            if (footers.Count > 0) PageFooterHeight = footers[0].PageFooterHeight;
 
             // make height smaller to have enough space for page header and page footer
             res.PageHeight = _pageHeight - _pageHeight * (PageHeaderHeight + PageFooterHeight) / 100d;
