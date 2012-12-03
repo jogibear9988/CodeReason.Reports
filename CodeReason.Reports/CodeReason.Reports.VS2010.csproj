@@ -46,6 +46,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Printing" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -72,6 +73,9 @@
     <Compile Include="Document\TableRowForDynamicDataTable.cs" />
     <Compile Include="Document\TableRowForDynamicHeader.cs" />
     <Compile Include="Document\TextBlockDocumentConditional.cs" />
+    <Compile Include="Export\ToImageFile.cs" />
+    <Compile Include="Export\ToXpsByteArray.cs" />
+    <Compile Include="Export\ToXpsFile.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="ImageErrorEventArgs.cs" />
     <Compile Include="Interfaces\IDocumentCondition.cs" />
@@ -120,7 +124,6 @@
     <Compile Include="InlineHasValue.cs" />
     <Compile Include="ReportPaginatorStaticCache.cs" />
     <Compile Include="ReportWorkspace.cs" />
- 
     <Compile Include="XamlHelper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
