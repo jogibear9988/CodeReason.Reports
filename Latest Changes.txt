@@ -1,0 +1,7 @@
+* updated reference to Visifire 2.3.0
+* added BusyDecorator control for busy indication during report generation
+* added converted project files for VS 2010
+* added support for vertical table row filling
+* added exception class ReportingException
+* added support for merging multiple aggregate values
+* added support of conditional change of visibility of TextBlock

@@ -1,0 +1,11 @@
+﻿<Window x:Class="ChartReport.WindowMain"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CodeReason.Reports.Controls;assembly=CodeReason.Reports"
+    Title="CodeReason Reports - Chart Report" Height="600" Width="600" WindowState="Maximized" Activated="Window_Activated">
+    <Grid>
+        <c:BusyDecorator Name="busyDecorator" IsBusyIndicatorHidden="False">
+            <DocumentViewer Name="documentViewer" />
+        </c:BusyDecorator>
+    </Grid>
+</Window>

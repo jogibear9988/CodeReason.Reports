@@ -1,0 +1,7 @@
+- barcodes have a DependencyProperty problem
+- context values in content area
+- enable different style for empty document values
+- visibility switches
+- more barcodes
+- barcode text
+- charting

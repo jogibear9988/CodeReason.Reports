@@ -1,0 +1,147 @@
+<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports"
+              xmlns:xrbc="clr-namespace:CodeReason.Reports.Document.Barcode;assembly=CodeReason.Reports"
+              PageHeight="29.7cm" PageWidth="21cm" ColumnWidth="21cm">
+    <xrd:ReportProperties>
+        <xrd:ReportProperties.ReportName>BarcodeReport</xrd:ReportProperties.ReportName>
+        <xrd:ReportProperties.ReportTitle>Barcode Report</xrd:ReportProperties.ReportTitle>
+    </xrd:ReportProperties>
+    <xrd:SectionReportHeader PageHeaderHeight="2" Padding="10,10,10,0" FontSize="12">
+        <Table CellSpacing="0">
+            <Table.Columns>
+                <TableColumn Width="*" />
+                <TableColumn Width="*" />
+            </Table.Columns>
+            <TableRowGroup>
+                <TableRow>
+                    <TableCell>
+                        <Paragraph>
+                            <xrd:InlineContextValue PropertyName="ReportTitle" />
+                        </Paragraph>
+                    </TableCell>
+                    <TableCell>
+                        <Paragraph TextAlignment="Right">
+                            <xrd:InlineDocumentValue PropertyName="PrintDate" Format="dd.MM.yyyy HH:mm:ss" />
+                        </Paragraph>
+                    </TableCell>
+                </TableRow>
+            </TableRowGroup>
+        </Table>
+    </xrd:SectionReportHeader>
+    <xrd:SectionReportFooter PageFooterHeight="2" Padding="10,0,10,10" FontSize="12">
+        <Table CellSpacing="0">
+            <Table.Columns>
+                <TableColumn Width="*" />
+                <TableColumn Width="*" />
+            </Table.Columns>
+            <TableRowGroup>
+                <TableRow>
+                    <TableCell>
+                        <Paragraph>
+                        </Paragraph>
+                    </TableCell>
+                    <TableCell>
+                        <Paragraph TextAlignment="Right">
+                            Page
+                            <xrd:InlineContextValue PropertyName="PageNumber" FontWeight="Bold" /> of
+                            <xrd:InlineContextValue PropertyName="PageCount" FontWeight="Bold" />
+                        </Paragraph>
+                    </TableCell>
+                </TableRow>
+            </TableRowGroup>
+        </Table>
+    </xrd:SectionReportFooter>
+    <Section Padding="80,10,40,10" FontSize="12">
+        <Paragraph FontSize="24" FontWeight="Bold"><xrd:InlineContextValue PropertyName="ReportTitle" /></Paragraph>
+        <Paragraph>This is a barcode report example.</Paragraph>
+        <Paragraph>
+            <!-- Static barcode of type C128BC -->
+            <xrbc:InlineBarcodeC128 Value="Barcode Report" Text="Please scan me!" Width="5cm" Height="2cm" BarcodeSubType="BC" ShowText="True" />
+        </Paragraph>
+        <Paragraph FontSize="20" FontWeight="Bold">Item List</Paragraph>
+        <Table CellSpacing="0" BorderBrush="Black" BorderThickness="0.02cm">
+            <Table.Resources>
+                <!-- Style for header/footer rows. -->
+                <Style x:Key="headerFooterRowStyle" TargetType="{x:Type TableRowGroup}">
+                    <Setter Property="FontWeight" Value="DemiBold"/>
+                    <Setter Property="FontSize" Value="16"/>
+                    <Setter Property="Background" Value="LightGray"/>
+                </Style>
+
+                <!-- Style for data rows. -->
+                <Style x:Key="dataRowStyle" TargetType="{x:Type TableRowGroup}">
+                    <Setter Property="FontSize" Value="12"/>
+                </Style>
+
+                <!-- Style for data cells. -->
+                <Style TargetType="{x:Type TableCell}">
+                    <Setter Property="Padding" Value="0.1cm"/>
+                    <Setter Property="BorderBrush" Value="Black"/>
+                    <Setter Property="BorderThickness" Value="0.01cm"/>
+                </Style>
+            </Table.Resources>
+
+            <Table.Columns>
+                <TableColumn Width="0.5*" />
+                <TableColumn Width="2*" />
+                <TableColumn Width="0.7*" />
+                <TableColumn Width="0.5*" />
+            </Table.Columns>
+            <TableRowGroup Style="{StaticResource headerFooterRowStyle}">
+                <TableRow>
+                    <TableCell>
+                        <Paragraph TextAlignment="Center">
+                            <Bold>Pos.</Bold>
+                        </Paragraph>
+                    </TableCell>
+                    <TableCell>
+                        <Paragraph TextAlignment="Center">
+                            <Bold>Item Name</Bold>
+                        </Paragraph>
+                    </TableCell>
+                    <TableCell>
+                        <Paragraph TextAlignment="Center">
+                            <Bold>EAN</Bold>
+                        </Paragraph>
+                    </TableCell>
+                    <TableCell>
+                        <Paragraph TextAlignment="Center">
+                            <Bold>Count</Bold>
+                        </Paragraph>
+                    </TableCell>
+                </TableRow>
+            </TableRowGroup>
+            <TableRowGroup Style="{StaticResource dataRowStyle}">
+                <xrd:TableRowForDataTable TableName="Ean">
+                    <TableCell>
+                        <Paragraph>
+                            <xrd:InlineTableCellValue PropertyName="Position" />
+                        </Paragraph>
+                    </TableCell>
+                    <TableCell>
+                        <Paragraph>
+                            <xrd:InlineTableCellValue PropertyName="Item" />
+                        </Paragraph>
+                    </TableCell>
+                    <TableCell>
+                        <Paragraph>
+                            <xrbc:TableCellBarcodeC128 PropertyName="EAN" Width="2.5cm" Height="1cm" BarcodeSubType="A" />
+                        </Paragraph>
+                    </TableCell>
+                    <TableCell>
+                        <Paragraph TextAlignment="Center">
+                            <xrd:InlineTableCellValue PropertyName="Count" AggregateGroup="ItemCount"/>
+                        </Paragraph>
+                    </TableCell>
+                </xrd:TableRowForDataTable>
+            </TableRowGroup>
+        </Table>
+        <Paragraph>
+            There are
+            <xrd:InlineAggregateValue AggregateGroup="ItemCount" AggregateValueType="Count" EmptyValue="no" FontWeight="Bold" /> item positions with a total of
+            <xrd:InlineAggregateValue AggregateGroup="ItemCount" AggregateValueType="Sum" EmptyValue="0" FontWeight="Bold" /> items listed.
+        </Paragraph>
+    </Section>
+</FlowDocument>
+

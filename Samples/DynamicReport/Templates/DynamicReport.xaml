@@ -1,0 +1,66 @@
+<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports"
+              xmlns:xrbc="clr-namespace:CodeReason.Reports.Document.Barcode;assembly=CodeReason.Reports"
+              PageHeight="29.7cm" PageWidth="21cm" ColumnWidth="21cm">
+    <FlowDocument.Resources>
+        <!-- Style for header/footer rows. -->
+        <Style x:Key="headerFooterRowStyle" TargetType="{x:Type TableRowGroup}">
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Background" Value="LightGray"/>
+        </Style>
+
+        <!-- Style for data rows. -->
+        <Style x:Key="dataRowStyle" TargetType="{x:Type TableRowGroup}">
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+
+        <!-- Style for data cells. -->
+        <Style TargetType="{x:Type TableCell}">
+            <Setter Property="Padding" Value="0.1cm"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="0.01cm"/>
+        </Style>
+    </FlowDocument.Resources>
+    <xrd:ReportProperties>        
+        <xrd:ReportProperties.ReportTitle>Dynamic Report</xrd:ReportProperties.ReportTitle>
+    </xrd:ReportProperties>
+
+        
+    <Section Padding="80,20,40,10" FontSize="12" BreakPageBefore="True">
+        <Paragraph FontSize="24" FontWeight="Bold">
+            <xrd:InlineContextValue PropertyName="ReportTitle" /> 
+        </Paragraph>
+        <Paragraph>Reports whose headers/colums and data/rows are created on execution time.</Paragraph>
+
+
+        <Paragraph>Report 1</Paragraph>
+        <Table CellSpacing="0" BorderBrush="Black" BorderThickness="0.02cm">
+            
+            <TableRowGroup Style="{StaticResource headerFooterRowStyle}">
+                <xrd:TableRowForDynamicHeader TableName="Header"/>
+            </TableRowGroup>
+
+            <TableRowGroup Style="{StaticResource dataRowStyle}">
+                <xrd:TableRowForDynamicDataTable TableName="Data"/>
+            </TableRowGroup>            
+            
+        </Table>
+
+        <Paragraph>Report 2</Paragraph>
+        <Table CellSpacing="0" BorderBrush="Black" BorderThickness="0.02cm">
+
+            <TableRowGroup Style="{StaticResource headerFooterRowStyle}">
+                <xrd:TableRowForDynamicHeader TableName="Header2"/>
+            </TableRowGroup>
+
+            <TableRowGroup Style="{StaticResource dataRowStyle}">
+                <xrd:TableRowForDynamicDataTable TableName="Data2"/>
+            </TableRowGroup>
+
+        </Table>
+
+    </Section>
+</FlowDocument>
+
