@@ -46,6 +46,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -58,14 +59,20 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Zen.Barcode.Core">
+      <HintPath>ExternalDlls\Zen.Barcode.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Barcode\BarcodeBase.cs" />
     <Compile Include="Barcode\BarcodeCharInfo.cs" />
     <Compile Include="Barcode\BarcodeC128.cs" />
+    <Compile Include="Barcode\BarcodeZenFramework.cs" />
     <Compile Include="Controls\ThreadedVisualHost.cs" />
     <Compile Include="Controls\BusyDecorator.cs" />
     <Compile Include="Controls\VisualTargetPresentationSource.cs" />
+    <Compile Include="Document\Barcode\InlineBarcodeZenFramework.cs" />
+    <Compile Include="Document\Barcode\TableCellBarcodeZenFramework.cs" />
     <Compile Include="Document\InlineAggregateValue.cs" />
     <Compile Include="Document\SectionReportFooter.cs" />
     <Compile Include="Document\SectionDataGroup.cs" />
