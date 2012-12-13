@@ -17,6 +17,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -133,21 +134,10 @@ namespace CodeReason.Reports
 
                 if (chartCanvas != null)
                 {
-                    // HACK: this here is REALLY dirty!!!
                     IChart newChart = (IChart)chart.Clone();
-                    if (window == null)
-                    {
-                        window = new Window();
-                        window.WindowStyle = WindowStyle.None;
-                        window.BorderThickness = new Thickness(0);
-                        window.ShowInTaskbar = false;
-                        window.Left = 30000;
-                        window.Top = 30000;
-                        window.Show();
-                    }
-                    window.Width = chartCanvas.Width + 2 * SystemParameters.BorderWidth;
-                    window.Height = chartCanvas.Height + 2 * SystemParameters.BorderWidth;
-                    window.Content = newChart;
+
+                    FrameworkElement windowContent = newChart as FrameworkElement;
+                    if (windowContent == null) throw new InvalidProgramException("newChart is not a FrameworkElement");
 
                     newChart.DataColumns = null;
 
@@ -155,10 +145,12 @@ namespace CodeReason.Reports
                     newChart.DataColumns = chart.TableColumns.Split(',', ';');
                     newChart.UpdateChart();
 
-                    FrameworkElement windowContent = window.Content as FrameworkElement;
-                    if (windowContent == null) throw new InvalidProgramException("window.Content is not a FrameworkElement");
+                    windowContent.Measure(new System.Windows.Size(chartCanvas.Width, chartCanvas.Height));
+                    windowContent.Arrange(new System.Windows.Rect(0, 0, chartCanvas.Width, chartCanvas.Height));
+                    windowContent.UpdateLayout();
+
                     RenderTargetBitmap bitmap = new RenderTargetBitmap((int)(windowContent.RenderSize.Width * 600d / 96d), (int)(windowContent.RenderSize.Height * 600d / 96d), 600d, 600d, PixelFormats.Pbgra32);
-                    bitmap.Render(window);
+                    bitmap.Render(windowContent);
                     chartCanvas.Children.Add(new Image() { Source = bitmap });
                 }
                 else
@@ -173,7 +165,7 @@ namespace CodeReason.Reports
 
             if (window != null) window.Close();
         }
-
+        
         /// <summary>
         /// Fills document with data
         /// </summary>
