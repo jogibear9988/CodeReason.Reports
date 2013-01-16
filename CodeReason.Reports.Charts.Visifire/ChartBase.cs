@@ -23,7 +23,7 @@ namespace CodeReason.Reports.Charts.Visifire
     /// Base class for charts
     /// </summary>
     public abstract class ChartBase : Canvas, IChartVisifire
-    {
+    {        
         /// <summary>
         /// Visifire chart
         /// </summary>
@@ -34,6 +34,24 @@ namespace CodeReason.Reports.Charts.Visifire
         /// </summary>
         protected global::Visifire.Charts.RenderAs RenderAs = global::Visifire.Charts.RenderAs.Column;
 
+        public enum ChartTheme
+        {
+            Theme1,
+            Theme2,
+            Theme3
+        }
+
+        public ChartTheme Theme
+        {
+            get { return (ChartTheme)GetValue(ThemeProperty); }
+            set { SetValue(ThemeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Theme.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ThemeProperty =
+            DependencyProperty.Register("Theme", typeof(ChartTheme), typeof(ChartBase), new PropertyMetadata(ChartTheme.Theme1));
+
+        
         /// <summary>
         /// Gets or sets the background brush
         /// </summary>
@@ -153,6 +171,8 @@ namespace CodeReason.Reports.Charts.Visifire
             res.Title = Title;
             res.UniqueColors = UniqueColors;
             res.View3D = View3D;
+            res.Theme = Theme;
+            
             return res;
         }
 
@@ -192,6 +212,7 @@ namespace CodeReason.Reports.Charts.Visifire
             Chart.Width = Width;
             Chart.Height = Height;
             Chart.Watermark = false;
+            Chart.Theme = Theme.ToString();
 
             // set dependency properties
             Chart.Background = Background;

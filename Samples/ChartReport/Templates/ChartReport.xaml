@@ -57,8 +57,7 @@
             Bar Charts
         </Paragraph>
         <Paragraph>
-            <crcv:ColumnChart TableName="Example1" TableColumns="Year,Value" Width="16cm" Height="5cm" View3D="True" Title="Example Graph 1">
-            </crcv:ColumnChart>
+            <crcv:ColumnChart Theme="Theme3"  TableName="Example1" TableColumns="Year,Value" Width="16cm" Height="5cm" Title="Example Graph 1" View3D="True"/>
         </Paragraph>
         <Paragraph>
             <crcv:ColumnChart TableName="Example2" TableColumns="Year,Value" Width="16cm" Height="5cm" UniqueColors="False" Title="Example Graph 2">
