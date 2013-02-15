@@ -4,48 +4,55 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-using Microsoft.Win32;
+using iTextSharp.text; //from http://sourceforge.net/projects/itextsharp/
+using iTextSharp.text.pdf;
 
+using Microsoft.Win32;
+    
 namespace CodeReason.Reports.Export
-{
+{    
     /// <summary>
-    /// Export to PNG
+    /// Export to PDF
     /// </summary>
-    public static class ToImageFile
+    public static class ToPdfFile
     {
         /// <summary>
-        /// It will show the SaveFileDialog to save the current report's content as PNG files.
+        /// It will show the SaveFileDialog to save the current report's content as a PDF file.
         /// </summary>
         /// <param name="doc">Retrieve it from xps.GetFixedDocumentSequence() or documentViewer.Document</param>
+        /// <param name="pageSize">Example: PageSize.A4</param>
         /// <param name="dpiX">The horizontal DPI of the bitmap</param>
         /// <param name="dpiY">The vertical DPI of the bitmap</param>
         public static void InteractiveExport(
-            this FixedDocumentSequence doc,
-            double dpiX = 96, double dpiY = 96)
+                this FixedDocumentSequence doc,
+                Rectangle pageSize, 
+                double dpiX = 96, double dpiY = 96)
         {
             var dlg = new SaveFileDialog
-                          {
-                              DefaultExt = ".png", 
-                              Filter = "PNG Images (.png)|*.png"
-                          };
+                                     {
+                                         DefaultExt = ".pdf", 
+                                         Filter = "PDF Files (.pdf)|*.pdf"
+                                     };
 
             var result = dlg.ShowDialog();
 
             if (result != true) return;
             var filename = dlg.FileName;
-            Export(doc, filename, dpiX, dpiY);
+            Export(doc, filename, pageSize, dpiX, dpiY);
         }
 
         /// <summary>
-        /// Saving the current report's content as PNG files.
+        /// Saving the current report's content as a PDF file.
         /// </summary>
         /// <param name="doc">Retrieve it from xps.GetFixedDocumentSequence() or documentViewer.Document</param>
         /// <param name="fileNamePath"></param>
+        /// <param name="pageSize">Example: PageSize.A4</param>
         /// <param name="dpiX">The horizontal DPI of the bitmap</param>
         /// <param name="dpiY">The vertical DPI of the bitmap</param>
         public static void Export(
             this FixedDocumentSequence doc,
             string fileNamePath,
+            Rectangle pageSize,
             double dpiX = 96, double dpiY = 96)
         {
             var paginator = doc.DocumentPaginator;
@@ -53,15 +60,12 @@ namespace CodeReason.Reports.Export
             var pageCount = paginator.PageCount;
             if (pageCount == 0) return;
 
-            var path = Path.GetDirectoryName(fileNamePath);
-            var filename = Path.GetFileNameWithoutExtension(fileNamePath);
+            //create a new pdf doc with the specified size
+            var pdfDoc = new iTextSharp.text.Document(pageSize);
+            PdfWriter.GetInstance(pdfDoc, new FileStream(fileNamePath, FileMode.Create));
+            pdfDoc.Open();
 
-            var stringFormat = "00";
-            if (pageCount.ToString().Length > 2)
-            {
-                stringFormat = stringFormat.PadRight(pageCount - 2, '0');
-            }
-
+            //render pages to images and then save theme as a pdf file.
             for (var i = 0; i < pageCount; i++)
             {
                 var visual = paginator.GetPage(i).Visual;
@@ -80,12 +84,24 @@ namespace CodeReason.Reports.Export
 
                 var png = new PngBitmapEncoder();
                 png.Frames.Add(BitmapFrame.Create(bmp));
-                var pngFilePath = string.Format("{0}\\{1}-{2}.png", path, filename, (i + 1).ToString(stringFormat));
-                using (Stream stream = File.Create(pngFilePath))
+
+                using (var ms = new MemoryStream())
                 {
-                    png.Save(stream);
+                    png.Save(ms);
+                    //get image byte from stream
+                    var imgBytes = ms.ToArray();
+                    var pngImg = Image.GetInstance(imgBytes);
+                    //fit to page
+                    pngImg.ScaleAbsolute(pdfDoc.PageSize.Width, pdfDoc.PageSize.Height);
+                    pngImg.SetAbsolutePosition(0, 0);
+                    //add to page
+                    pdfDoc.Add(pngImg);
+                    //start a new page
+                    pdfDoc.NewPage();
                 }
             }
+
+            pdfDoc.Close();
         }
     }
 }

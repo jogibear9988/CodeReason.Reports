@@ -1,9 +1,10 @@
 ﻿using System.IO;
 using System.Windows.Documents;
 using System.Windows.Xps.Packaging;
+
 using Microsoft.Win32;
 
-namespace CodeReasonRptsExport
+namespace CodeReason.Reports.Export
 {
     /// <summary>
     /// Export to XSP

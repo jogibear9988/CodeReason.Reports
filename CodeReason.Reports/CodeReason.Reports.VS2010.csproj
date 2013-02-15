@@ -42,6 +42,9 @@
     <Reference Include="DataMatrix.net">
       <HintPath>ExternalDlls\DataMatrix.net.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>ExternalDlls\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="ReachFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -87,6 +90,7 @@
     <Compile Include="Document\TableRowForDynamicHeader.cs" />
     <Compile Include="Document\TextBlockDocumentConditional.cs" />
     <Compile Include="Export\ToImageFile.cs" />
+    <Compile Include="Export\ToPdfFile.cs" />
     <Compile Include="Export\ToXpsByteArray.cs" />
     <Compile Include="Export\ToXpsFile.cs" />
     <Compile Include="ExtensionMethods.cs" />

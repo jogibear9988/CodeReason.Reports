@@ -14,9 +14,13 @@ using System.Data;
 using System.IO;
 using System.Text;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Threading;
 using System.Windows.Xps.Packaging;
 using CodeReason.Reports;
+using CodeReason.Reports.Export;
+
+using iTextSharp.text;
 
 namespace BarcodeReport
 {
@@ -96,6 +100,11 @@ namespace BarcodeReport
                     busyDecorator.IsBusyIndicatorHidden = true;
                 }
             }));
+        }
+
+        private void CmdPDF_OnClick(object sender, RoutedEventArgs e)
+        {
+            ((FixedDocumentSequence)documentViewer.Document).InteractiveExport(PageSize.A4, 300, 300);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Windows.Documents;
 using System.Windows.Xps.Packaging;
 using System.Windows.Xps.Serialization;
 
-namespace CodeReasonRptsExport
+namespace CodeReason.Reports.Export
 {
     /// <summary>
     /// Export to ByteArray

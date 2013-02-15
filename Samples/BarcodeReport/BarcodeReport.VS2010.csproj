@@ -37,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\CodeReason.Reports\ExternalDlls\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="ReachFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
