@@ -8,9 +8,9 @@ using iTextSharp.text; //from http://sourceforge.net/projects/itextsharp/
 using iTextSharp.text.pdf;
 
 using Microsoft.Win32;
-    
+
 namespace CodeReason.Reports.Export
-{    
+{
     /// <summary>
     /// Export to PDF
     /// </summary>
@@ -21,24 +21,16 @@ namespace CodeReason.Reports.Export
         /// </summary>
         /// <param name="doc">Retrieve it from xps.GetFixedDocumentSequence() or documentViewer.Document</param>
         /// <param name="pageSize">Example: PageSize.A4</param>
-        /// <param name="dpiX">The horizontal DPI of the bitmap</param>
-        /// <param name="dpiY">The vertical DPI of the bitmap</param>
-        public static void InteractiveExport(
-                this FixedDocumentSequence doc,
-                Rectangle pageSize, 
-                double dpiX = 96, double dpiY = 96)
+        /// <param name="quality">Resolution of the Images in the PDF </param>  
+        public static void InteractiveExport(this FixedDocumentSequence doc, Rectangle pageSize, double quality = 1)
         {
-            var dlg = new SaveFileDialog
-                                     {
-                                         DefaultExt = ".pdf", 
-                                         Filter = "PDF Files (.pdf)|*.pdf"
-                                     };
+            var dlg = new SaveFileDialog { DefaultExt = ".pdf", Filter = "PDF Files (.pdf)|*.pdf" };
 
             var result = dlg.ShowDialog();
 
             if (result != true) return;
             var filename = dlg.FileName;
-            Export(doc, filename, pageSize, dpiX, dpiY);
+            Export(doc, filename, pageSize, quality);
         }
 
         /// <summary>
@@ -47,13 +39,8 @@ namespace CodeReason.Reports.Export
         /// <param name="doc">Retrieve it from xps.GetFixedDocumentSequence() or documentViewer.Document</param>
         /// <param name="fileNamePath"></param>
         /// <param name="pageSize">Example: PageSize.A4</param>
-        /// <param name="dpiX">The horizontal DPI of the bitmap</param>
-        /// <param name="dpiY">The vertical DPI of the bitmap</param>
-        public static void Export(
-            this FixedDocumentSequence doc,
-            string fileNamePath,
-            Rectangle pageSize,
-            double dpiX = 96, double dpiY = 96)
+        /// <param name="quality">Resolution of the Images in the PDF </param>        
+        public static void Export(this FixedDocumentSequence doc, string fileNamePath, Rectangle pageSize, double quality = 1)
         {
             var paginator = doc.DocumentPaginator;
 
@@ -73,13 +60,8 @@ namespace CodeReason.Reports.Export
                 var fe = visual as FrameworkElement;
                 if (fe == null) continue;
 
-                var bmp = new RenderTargetBitmap(
-                                    (int)fe.ActualWidth,
-                                    (int)fe.ActualHeight,
-                                    dpiX,
-                                    dpiY,
-                                    PixelFormats.Default);
-
+                var bmp = fe.RenderBitmap(quality);
+                //var bmp = new RenderTargetBitmap((int)fe.ActualWidth, (int)fe.ActualHeight, dpiX, dpiY, PixelFormats.Default);
                 bmp.Render(fe);
 
                 var png = new PngBitmapEncoder();

@@ -19,15 +19,9 @@ namespace CodeReason.Reports.Export
         /// <param name="doc">Retrieve it from xps.GetFixedDocumentSequence() or documentViewer.Document</param>
         /// <param name="dpiX">The horizontal DPI of the bitmap</param>
         /// <param name="dpiY">The vertical DPI of the bitmap</param>
-        public static void InteractiveExport(
-            this FixedDocumentSequence doc,
-            double dpiX = 96, double dpiY = 96)
+        public static void InteractiveExport(this FixedDocumentSequence doc, double dpiX = 96, double dpiY = 96)
         {
-            var dlg = new SaveFileDialog
-                          {
-                              DefaultExt = ".png", 
-                              Filter = "PNG Images (.png)|*.png"
-                          };
+            var dlg = new SaveFileDialog { DefaultExt = ".png", Filter = "PNG Images (.png)|*.png" };
 
             var result = dlg.ShowDialog();
 
@@ -43,10 +37,7 @@ namespace CodeReason.Reports.Export
         /// <param name="fileNamePath"></param>
         /// <param name="dpiX">The horizontal DPI of the bitmap</param>
         /// <param name="dpiY">The vertical DPI of the bitmap</param>
-        public static void Export(
-            this FixedDocumentSequence doc,
-            string fileNamePath,
-            double dpiX = 96, double dpiY = 96)
+        public static void Export(this FixedDocumentSequence doc, string fileNamePath, double dpiX = 96, double dpiY = 96)
         {
             var paginator = doc.DocumentPaginator;
 
@@ -69,12 +60,7 @@ namespace CodeReason.Reports.Export
                 var fe = visual as FrameworkElement;
                 if (fe == null) continue;
 
-                var bmp = new RenderTargetBitmap(
-                                    (int)fe.ActualWidth,
-                                    (int)fe.ActualHeight,
-                                    dpiX,
-                                    dpiY,
-                                    PixelFormats.Default);
+                var bmp = new RenderTargetBitmap((int)fe.ActualWidth, (int)fe.ActualHeight, dpiX, dpiY, PixelFormats.Default);
 
                 bmp.Render(fe);
 

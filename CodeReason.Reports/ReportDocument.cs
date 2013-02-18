@@ -270,7 +270,7 @@ namespace CodeReason.Reports
         /// </summary>
         /// <param name="data">report data</param>
         /// <returns></returns>
-        public XpsDocument CreateXpsDocument(ReportData data)
+        public XpsDocument CreateXpsDocument(ReportData data, Action<int,int> PageGeneratedCallBack = null)
         {
             MemoryStream ms = new MemoryStream();
             Package pkg = Package.Open(ms, FileMode.Create, FileAccess.ReadWrite);
@@ -281,9 +281,9 @@ namespace CodeReason.Reports
             XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
             DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
 
-            ReportPaginator rp = new ReportPaginator(this, data);
+            ReportPaginator rp = new ReportPaginator(this, data, PageGeneratedCallBack);
             rsm.SaveAsXaml(rp);
-
+            
             rsm.Commit();
             //pkg.Close();
 

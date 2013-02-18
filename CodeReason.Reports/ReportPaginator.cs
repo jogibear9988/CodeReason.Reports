@@ -44,6 +44,8 @@ namespace CodeReason.Reports
         protected Block _blockPageFooter;
         protected ArrayList _reportContextValues;
         protected ReportPaginatorDynamicCache _dynamicCache;
+
+        protected Action<int, int> _pageGeneratedCallBack;
         // ReSharper restore InconsistentNaming
 
         /// <summary>
@@ -55,10 +57,11 @@ namespace CodeReason.Reports
         /// <exception cref="ArgumentException">Flow document must have a specified page width</exception>
         /// <exception cref="ArgumentException">Flow document can have only one report header section</exception>
         /// <exception cref="ArgumentException">Flow document can have only one report footer section</exception>
-        public ReportPaginator(ReportDocument report, ReportData data)
+        public ReportPaginator(ReportDocument report, ReportData data, Action<int, int> PageGeneratedCallBack = null)
         {
             _report = report;
             _data = data;
+            _pageGeneratedCallBack = PageGeneratedCallBack;
 
             _flowDocument = report.CreateFlowDocument();
             _pageSize = new Size(_flowDocument.PageWidth, _flowDocument.PageHeight);
@@ -466,6 +469,8 @@ namespace CodeReason.Reports
             }
         }
 
+        private int _pageNumber = 0;
+
         /// <summary>
         /// This is most important method, modifies the original 
         /// </summary>
@@ -527,6 +532,9 @@ namespace CodeReason.Reports
 
             DocumentPage dp = new DocumentPage(newPage, new Size(_report.PageWidth, _report.PageHeight), bleedBox, contentBox);
             _report.FireEventGetPageCompleted(new GetPageCompletedEventArgs(page, pageNumber, null, false, null));
+
+            if (_pageGeneratedCallBack != null) 
+                _pageGeneratedCallBack(++_pageNumber, _pageCount);
             return dp;
         }
 

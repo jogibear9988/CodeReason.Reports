@@ -4,8 +4,8 @@
     xmlns:c="clr-namespace:CodeReason.Reports.Controls;assembly=CodeReason.Reports"
     Title="CodeReason Reports - Simple Report" Height="600" Width="600" WindowState="Maximized" Activated="Window_Activated">
     <Grid>
-        <c:BusyDecorator Name="busyDecorator" IsBusyIndicatorHidden="False">
+        <c:BusyIndicator Name="busyDecorator" IsBusy="True">           
             <DocumentViewer Name="documentViewer" />
-        </c:BusyDecorator>
+        </c:BusyIndicator>
     </Grid>
 </Window>

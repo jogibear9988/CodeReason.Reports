@@ -4,9 +4,10 @@
     xmlns:c="clr-namespace:CodeReason.Reports.Controls;assembly=CodeReason.Reports"
     Title="CodeReason Reports - Barcode Report" Height="600" Width="600" WindowState="Maximized" Activated="Window_Activated">
     <Grid>
-        <Button x:Name="cmdPDF" Height="20" Width="40" VerticalAlignment="Top" HorizontalAlignment="Left" Content="To PDF" Click="CmdPDF_OnClick"/>
-        <c:BusyDecorator Name="busyDecorator" IsBusyIndicatorHidden="False">
-            <DocumentViewer Name="documentViewer" Margin="0,22.388,0,0" />
+        <Button x:Name="cmdPDF" Height="20" Width="50" VerticalAlignment="Top" HorizontalAlignment="Left" Content="To PDF" Click="CmdPDF_OnClick"/>
+        <Button x:Name="cmdPNG" Height="20" Width="50" VerticalAlignment="Top" HorizontalAlignment="Left" Content="To PNG" Click="CmdPNG_OnClick" Margin="55,0,0,0"/>
+        <c:BusyDecorator Name="busyDecorator" IsBusyIndicatorHidden="False" Margin="0,25,0,0">
+            <DocumentViewer Name="documentViewer" />
         </c:BusyDecorator>
     </Grid>
 </Window>

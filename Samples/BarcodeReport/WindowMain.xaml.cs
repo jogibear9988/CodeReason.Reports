@@ -104,7 +104,13 @@ namespace BarcodeReport
 
         private void CmdPDF_OnClick(object sender, RoutedEventArgs e)
         {
-            ((FixedDocumentSequence)documentViewer.Document).InteractiveExport(PageSize.A4, 300, 300);
+            ((FixedDocumentSequence)documentViewer.Document).InteractiveExport(PageSize.A4,2);
+            //((FixedDocumentSequence)documentViewer.Document).InteractiveExport();
+        }
+
+        private void CmdPNG_OnClick(object sender, RoutedEventArgs e)
+        {
+            ((FixedDocumentSequence)documentViewer.Document).InteractiveExport(300, 300);
         }
     }
 }

@@ -1,0 +1,75 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:controls="clr-namespace:CodeReason.Reports.Controls">
+
+  <Style TargetType="{x:Type controls:BusyIndicator}">
+      <Setter Property="BusyContent" Value="Please wait..." />
+      <Setter Property="IsTabStop" Value="False" />
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="VerticalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="VerticalContentAlignment" Value="Stretch" />
+      <Setter Property="Template">
+         <Setter.Value>
+            <ControlTemplate TargetType="{x:Type controls:BusyIndicator}">
+               <Grid>
+                  <ContentPresenter x:Name="content" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Focusable="False" Visibility="Visible" />
+                  <ContentControl x:Name="busycontent" Visibility="Visible" Background="Black" Opacity="1">                      
+                            <Grid>
+                                <Grid.Resources>
+                                    <Storyboard x:Key="SpinAnimation" RepeatBehavior="Forever">
+                                        <DoubleAnimation To="1" Duration="0:0:1"
+                                                    Storyboard.TargetName="bcontent"
+                                                    Storyboard.TargetProperty="Opacity"/>
+                                        <DoubleAnimation From="0" To="359" Duration="0:0:3" RepeatBehavior="Forever"
+                                                    Storyboard.TargetName="angle"
+                                                    Storyboard.TargetProperty="Angle"/>
+                                    </Storyboard>
+                                </Grid.Resources>
+                                <Grid.Triggers>
+                                    <EventTrigger RoutedEvent="Loaded">
+                                        <BeginStoryboard Storyboard="{StaticResource SpinAnimation}"/>
+                                    </EventTrigger>
+                                </Grid.Triggers>
+                                <Canvas x:Name="canvasBusy" Margin="0,0,0,0" Width="64" Height="64">
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform x:Name="angle" Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                            <TranslateTransform X="-0.5" Y="-0.5"/>
+                                            <ScaleTransform x:Name="scaleTransform" ScaleX="64" ScaleY="64"/>
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Canvas Name="bcontent" Opacity="1">
+                                        <Path Width="1" Height="1" Stretch="Fill" Stroke="Black" Opacity="0.5" StrokeThickness="0.1" StrokeStartLineCap="Round">
+                                            <Path.Data>
+                                                <PathGeometry>
+                                                    <PathFigure StartPoint="1,0">
+                                                        <ArcSegment Point="0,-1" RotationAngle="90" SweepDirection="Clockwise" IsLargeArc="True" Size="1,1"/>
+                                                    </PathFigure>
+                                                </PathGeometry>
+                                            </Path.Data>
+                                        </Path>
+                                        <Path Canvas.Left="0.5" Canvas.Top="-0.1" Width="0.4" Height="0.4" Opacity="0.5" Stretch="Fill" Fill="Black">
+                                            <Path.Data>
+                                                <PathGeometry>
+                                                    <PathFigure StartPoint="0,-1.1">
+                                                        <LineSegment Point="0.1,-1" />
+                                                        <LineSegment Point="0,-0.9" />
+                                                    </PathFigure>
+                                                </PathGeometry>
+                                            </Path.Data>
+                                        </Path>
+                                    </Canvas>
+                                </Canvas>
+                                <ContentControl Content="{TemplateBinding BusyContent}" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="-60,100,0,0" />
+                            </Grid>
+                    </ContentControl>
+               </Grid>
+            </ControlTemplate>
+         </Setter.Value>
+      </Setter>
+   </Style>
+
+</ResourceDictionary>

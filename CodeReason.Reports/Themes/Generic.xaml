@@ -4,6 +4,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/CodeReason.Reports;component/Themes/BusyDecorator.xaml"/>
+        <ResourceDictionary Source="/CodeReason.Reports;component/Themes/BusyIndicator.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

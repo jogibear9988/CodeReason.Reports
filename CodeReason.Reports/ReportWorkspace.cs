@@ -77,7 +77,7 @@ namespace CodeReason.Reports
         public void PreviewReport(ReportDocument reportDocument, IEnumerable<ReportData> data)
         {
             XpsDocument xps = reportDocument.CreateXpsDocument(data);
-            DocumentViewer.Document = xps.GetFixedDocumentSequence();
+            //DocumentViewer.Document = xps.GetFixedDocumentSequence();
         }
 
         /// <summary>
@@ -85,9 +85,9 @@ namespace CodeReason.Reports
         /// </summary>
         /// <param name="reportDocument">The report document.</param>
         /// <param name="data">The data.</param>
-        public void PreviewReport(ReportDocument reportDocument, ReportData data)
+        public void PreviewReport(ReportDocument reportDocument, ReportData data, Action<int,int> PageGeneratedCallBack = null)
         {
-            XpsDocument xps = reportDocument.CreateXpsDocument(data);
+            XpsDocument xps = reportDocument.CreateXpsDocument(data, PageGeneratedCallBack);
             DocumentViewer.Document = xps.GetFixedDocumentSequence();
 
         }

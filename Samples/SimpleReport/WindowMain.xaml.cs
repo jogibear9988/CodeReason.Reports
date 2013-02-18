@@ -12,6 +12,8 @@
 using System;
 using System.Data;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Xps.Packaging;
@@ -45,54 +47,56 @@ namespace SimpleReport
 
             _firstActivated = false;
 
-            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(delegate
-            {
-                try
+            Task.Factory.StartNew(() =>
                 {
-
-                    using (var workspace = new ReportWorkspace(Environment.CurrentDirectory))
+                    try
                     {
-                        workspace.DocumentViewer = documentViewer;
-                        var reportDocument = workspace.LoadReport(@"Templates\SimpleReport.xaml");
+                        //Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
 
-                        ReportData data = new ReportData();
-
-                        // set constant document values
-                        data.ReportDocumentValues.Add("PrintDate", DateTime.Now); // print date is now
-
-                        // sample table "Ean"
-                        DataTable table = new DataTable("Ean");
-                        table.Columns.Add("Position", typeof(string));
-                        table.Columns.Add("Item", typeof(string));
-                        table.Columns.Add("EAN", typeof(string));
-                        table.Columns.Add("Count", typeof(int));
-                        Random rnd = new Random(1234);
-                        for (int i = 1; i <= 100; i++)
+                        using (var workspace = new ReportWorkspace(Environment.CurrentDirectory))
                         {
-                            // randomly create some items
-                            table.Rows.Add(new object[] { i, "Item " + i.ToString("0000"), "123456790123", rnd.Next(9) + 1 });
+                            workspace.DocumentViewer = documentViewer;
+                            var reportDocument = workspace.LoadReport(@"Templates\SimpleReport.xaml");
+
+                            ReportData data = new ReportData();
+
+                            // set constant document values
+                            data.ReportDocumentValues.Add("PrintDate", DateTime.Now); // print date is now
+
+                            // sample table "Ean"
+                            DataTable table = new DataTable("Ean");
+                            table.Columns.Add("Position", typeof(string));
+                            table.Columns.Add("Item", typeof(string));
+                            table.Columns.Add("EAN", typeof(string));
+                            table.Columns.Add("Count", typeof(int));
+                            Random rnd = new Random(1234);
+                            for (int i = 1; i <= 1500; i++)
+                            {
+                                // randomly create some items
+                                table.Rows.Add(new object[] { i, "Item " + i.ToString("0000"), "123456790123", rnd.Next(9) + 1 });
+                            }
+                            data.DataTables.Add(table);
+
+                            DateTime dateTimeStart = DateTime.Now; // start time measure here
+
+                            XpsDocument xps = reportDocument.CreateXpsDocument(data, (page, pagecount) => { Dispatcher.Invoke(new Action(() => busyDecorator.BusyContent = "Rendering Page " + page.ToString() + " of " + pagecount.ToString())); });
+                            Dispatcher.Invoke(new Action(() => documentViewer.Document = xps.GetFixedDocumentSequence()));
+
+                            // show the elapsed time in window title
+                            Dispatcher.Invoke(new Action(() => Title += " - generated in " + (DateTime.Now - dateTimeStart).TotalMilliseconds + "ms"));
+
                         }
-                        data.DataTables.Add(table);
-
-                        DateTime dateTimeStart = DateTime.Now; // start time measure here
-
-                        workspace.PreviewReport(reportDocument, data);
-
-                        // show the elapsed time in window title
-                        Title += " - generated in " + (DateTime.Now - dateTimeStart).TotalMilliseconds + "ms";
-
                     }
-                }
-                catch (Exception ex)
-                {
-                    // show exception
-                    MessageBox.Show(ex.Message + "\r\n\r\n" + ex.GetType() + "\r\n" + ex.StackTrace, ex.GetType().ToString(), MessageBoxButton.OK, MessageBoxImage.Stop);
-                }
-                finally
-                {
-                    busyDecorator.IsBusyIndicatorHidden = true;
-                }
-            }));
+                    catch (Exception ex)
+                    {
+                        // show exception
+                        MessageBox.Show(ex.Message + "\r\n\r\n" + ex.GetType() + "\r\n" + ex.StackTrace, ex.GetType().ToString(), MessageBoxButton.OK, MessageBoxImage.Stop);
+                    }
+                    finally
+                    {
+                        Dispatcher.Invoke(new Action(() => busyDecorator.IsBusy = false));
+                    }
+                });
         }
     }
 }
