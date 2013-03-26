@@ -171,7 +171,7 @@ namespace CodeReason.Reports
         /// <exception cref="ArgumentException">Flow document must have a specified page height</exception>
         /// <exception cref="ArgumentException">Flow document must have a specified page width</exception>
         /// <exception cref="ArgumentException">"Flow document must have only one ReportProperties section, but it has {0}"</exception>
-        public FlowDocument CreateFlowDocument()
+        internal FlowDocument CreateFlowDocument()
         {
             MemoryStream mem = new MemoryStream();
             byte[] buf = Encoding.UTF8.GetBytes(_xamlData);
@@ -279,8 +279,8 @@ namespace CodeReason.Reports
             PackageStore.AddPackage(new Uri(pack), pkg);
             XpsDocument doc = new XpsDocument(pkg, CompressionOption.NotCompressed, pack);
             XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
-            DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
-
+            //DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
+            
             ReportPaginator rp = new ReportPaginator(this, data, PageGeneratedCallBack);
             rsm.SaveAsXaml(rp);
             
@@ -289,6 +289,34 @@ namespace CodeReason.Reports
 
             return doc;
         }
+
+        /// <summary>
+        /// Helper method to create page header or footer from flow document template
+        /// </summary>
+        /// <param name="data">report data</param>
+        /// <returns></returns>
+        public ReportPaginator CreatePaginator(ReportData data, Action<int, int> PageGeneratedCallBack = null)
+        {
+            ReportPaginator rp = new ReportPaginator(this, data, PageGeneratedCallBack);
+           
+            return rp;
+        }
+
+        public FlowDocument CreateFlowDocument(ReportData data, Action<int, int> PageGeneratedCallBack = null)
+        {
+            MemoryStream ms = new MemoryStream();
+            Package pkg = Package.Open(ms, FileMode.Create, FileAccess.ReadWrite);
+            string pack = String.Format("pack://report{0}.xps", this.ReportName);
+            PackageStore.RemovePackage(new Uri(pack));
+            PackageStore.AddPackage(new Uri(pack), pkg);
+            XpsDocument doc = new XpsDocument(pkg, CompressionOption.NotCompressed, pack);
+            XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
+            var flowDocument = this.CreateFlowDocument();
+            ReportPaginator rp = new ReportPaginator(this, data, PageGeneratedCallBack, flowDocument);
+
+            return flowDocument;
+        }
+
 
         /// <summary>
         /// Helper method to create page header or footer from flow document template

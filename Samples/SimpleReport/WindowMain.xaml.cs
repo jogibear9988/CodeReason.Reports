@@ -15,6 +15,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Windows.Xps.Packaging;
 using CodeReason.Reports;
@@ -43,6 +44,27 @@ namespace SimpleReport
         /// <param name="e">event details</param>
         private void Window_Activated(object sender, EventArgs e)
         {
+
+            /*using (var workspace = new ReportWorkspace(Environment.CurrentDirectory))
+            {
+                var reportDocument = workspace.LoadReport(@"Templates\SimpleReport.xaml");
+                ReportData data = new ReportData();
+                DataTable table = new DataTable("Ean");
+                table.Columns.Add("Position", typeof(string));
+                table.Columns.Add("Item", typeof(string));
+                table.Columns.Add("EAN", typeof(string));
+                table.Columns.Add("Count", typeof(int));
+                Random rnd = new Random(1234);
+                for (int i = 1; i <= 500; i++)
+                {
+                    table.Rows.Add(new object[] { i, "Item " + i.ToString("0000"), "123456790123", rnd.Next(9) + 1 });
+                }
+                data.DataTables.Add(table);
+                //the flowDocument no fill table data?
+                var flowDocument = reportDocument.createFlowDocument();
+            }*/
+
+
             if (!_firstActivated) return;
 
             _firstActivated = false;
@@ -55,7 +77,7 @@ namespace SimpleReport
 
                         using (var workspace = new ReportWorkspace(Environment.CurrentDirectory))
                         {
-                            workspace.DocumentViewer = documentViewer;
+                            //workspace.DocumentViewer = documentViewer;
                             var reportDocument = workspace.LoadReport(@"Templates\SimpleReport.xaml");
 
                             ReportData data = new ReportData();
@@ -79,12 +101,15 @@ namespace SimpleReport
 
                             DateTime dateTimeStart = DateTime.Now; // start time measure here
 
-                            XpsDocument xps = reportDocument.CreateXpsDocument(data, (page, pagecount) => { Dispatcher.Invoke(new Action(() => busyDecorator.BusyContent = "Rendering Page " + page.ToString() + " of " + pagecount.ToString())); });
+                            Dispatcher.Invoke(new Action(() => documentViewer.Document = reportDocument.CreateFlowDocument(data)));
+                            
+                        
+                            /*XpsDocument xps = reportDocument.CreateXpsDocument(data, (page, pagecount) => { Dispatcher.Invoke(new Action(() => busyDecorator.BusyContent = "Rendering Page " + page.ToString() + " of " + pagecount.ToString())); });
                             Dispatcher.Invoke(new Action(() => documentViewer.Document = xps.GetFixedDocumentSequence()));
 
                             // show the elapsed time in window title
-                            Dispatcher.Invoke(new Action(() => Title += " - generated in " + (DateTime.Now - dateTimeStart).TotalMilliseconds + "ms"));
-
+                            Dispatcher.Invoke(new Action(() => Title += " - generated in " + (DateTime.Now - dateTimeStart).TotalMilliseconds + "ms"));*/
+                        
                         }
                     }
                     catch (Exception ex)

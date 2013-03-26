@@ -5,7 +5,8 @@
     Title="CodeReason Reports - Simple Report" Height="600" Width="600" WindowState="Maximized" Activated="Window_Activated">
     <Grid>
         <c:BusyIndicator Name="busyDecorator" IsBusy="True">           
-            <DocumentViewer Name="documentViewer" />
+            <!--<DocumentViewer Name="documentViewer" />-->
+            <FlowDocumentPageViewer Name="documentViewer" />
         </c:BusyIndicator>
     </Grid>
 </Window>

@@ -21,6 +21,8 @@ using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+
 using CodeReason.Reports.Document;
 using CodeReason.Reports.Interfaces;
 
@@ -57,13 +59,16 @@ namespace CodeReason.Reports
         /// <exception cref="ArgumentException">Flow document must have a specified page width</exception>
         /// <exception cref="ArgumentException">Flow document can have only one report header section</exception>
         /// <exception cref="ArgumentException">Flow document can have only one report footer section</exception>
-        public ReportPaginator(ReportDocument report, ReportData data, Action<int, int> PageGeneratedCallBack = null)
+        public ReportPaginator(ReportDocument report, ReportData data, Action<int, int> PageGeneratedCallBack = null, FlowDocument flowDocument = null)
         {
             _report = report;
             _data = data;
             _pageGeneratedCallBack = PageGeneratedCallBack;
 
-            _flowDocument = report.CreateFlowDocument();
+            _flowDocument = flowDocument;
+            if (_flowDocument == null) 
+                _flowDocument = report.CreateFlowDocument();
+
             _pageSize = new Size(_flowDocument.PageWidth, _flowDocument.PageHeight);
 
             if (_flowDocument.PageHeight == double.NaN) throw new ArgumentException("Flow document must have a specified page height");
@@ -92,6 +97,16 @@ namespace CodeReason.Reports
             _reportContextValues = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(IInlineContextValue));
 
             FillData();
+
+            /*Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    Window aa = new Window();
+                    FlowDocumentPageViewer bb = new FlowDocumentPageViewer();
+                    bb.Document = _flowDocument;
+                    aa.Content = bb;
+                    aa.SizeToContent = SizeToContent.WidthAndHeight;
+                    aa.ShowDialog();
+                }));*/
         }
 
         protected void RememberAggregateValue(Dictionary<string, List<object>> aggregateValues, string aggregateGroups, object value)
@@ -469,8 +484,6 @@ namespace CodeReason.Reports
             }
         }
 
-        private int _pageNumber = 0;
-
         /// <summary>
         /// This is most important method, modifies the original 
         /// </summary>
@@ -534,7 +547,7 @@ namespace CodeReason.Reports
             _report.FireEventGetPageCompleted(new GetPageCompletedEventArgs(page, pageNumber, null, false, null));
 
             if (_pageGeneratedCallBack != null) 
-                _pageGeneratedCallBack(++_pageNumber, _pageCount);
+                _pageGeneratedCallBack(pageNumber, _pageCount);
             return dp;
         }
 
