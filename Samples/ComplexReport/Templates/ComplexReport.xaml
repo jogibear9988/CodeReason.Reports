@@ -97,6 +97,7 @@
                 <TableColumn Width="0.6*" />
                 <TableColumn Width="0.6*" />
                 <TableColumn Width="0.5*" />
+                <TableColumn Width="0.5*" />
             </Table.Columns>
             <TableRowGroup Style="{StaticResource headerFooterRowStyle}">
                 <TableRow>
@@ -123,6 +124,11 @@
                     <TableCell>
                         <Paragraph TextAlignment="Center">
                             <Bold>Count</Bold>
+                        </Paragraph>
+                    </TableCell>
+                    <TableCell>
+                        <Paragraph TextAlignment="Center">
+                            <Bold>Test</Bold>
                         </Paragraph>
                     </TableCell>
                 </TableRow>
@@ -152,6 +158,11 @@
                     <TableCell>
                         <Paragraph TextAlignment="Center">
                             <xrd:InlineTableCellValue PropertyName="Count" AggregateGroup="ItemCount"/>
+                        </Paragraph>
+                    </TableCell>
+                    <TableCell>
+                        <Paragraph TextAlignment="Center">
+                            <xrd:InlineTableCellValue PropertyName="Test" AggregateGroup="ItemCount" Format="0.00"/>
                         </Paragraph>
                     </TableCell>
                 </xrd:TableRowForDataTable>

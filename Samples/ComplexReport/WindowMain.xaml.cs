@@ -74,12 +74,13 @@ namespace ComplexReport
                         table.Columns.Add("Item", typeof(string));
                         table.Columns.Add("EAN", typeof(string));
                         table.Columns.Add("Count", typeof(int));
+                        table.Columns.Add("Test", typeof(double));
                         Random rnd = new Random(1234 + i);
                         int count = rnd.Next(10) * (rnd.Next(2) + 1);
                         for (int j = 1; j <= count; j++)
                         {
                             // randomly create some articles
-                            table.Rows.Add(new object[] { j, "Item " + (j + (1000 * (i + 1))).ToString("0000"), "123456790123", rnd.Next(9) + 1 });
+                            table.Rows.Add(new object[] { j, "Item " + (j + (1000 * (i + 1))).ToString("0000"), "123456790123", rnd.Next(9) + 1, 1.23456 });
                         }
                         data.DataTables.Add(table);
                         listData.Add(data);
