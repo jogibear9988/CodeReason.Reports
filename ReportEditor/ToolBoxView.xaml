@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="ReportEditor.ToolBoxView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:reportEditor="clr-namespace:ReportEditor"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style x:Key="ContainerStyle" TargetType="{x:Type GroupItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Expander Header="{Binding}" Background="Gainsboro" IsExpanded="True">
+                            <ItemsPresenter />
+                        </Expander>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <x:Array x:Key="toolBoxItems" Type="reportEditor:ToolBoxItem">
+            <reportEditor:ToolBoxItem Control="{x:Type Grid}" GroupName="panels"  />
+            <reportEditor:ToolBoxItem Control="{x:Type Canvas}" GroupName="panels"/>
+            <reportEditor:ToolBoxItem Control="{x:Type StackPanel}" GroupName="panels"/>
+            <reportEditor:ToolBoxItem Control="{x:Type DockPanel}" GroupName="panels" />
+
+            <reportEditor:ToolBoxItem Control="{x:Type Button}" GroupName="default" />
+            <reportEditor:ToolBoxItem Control="{x:Type Label}" GroupName="default" />
+            <reportEditor:ToolBoxItem Control="{x:Type TextBlock}" GroupName="default"/>
+            <reportEditor:ToolBoxItem Control="{x:Type CheckBox}" GroupName="default"  />
+            <reportEditor:ToolBoxItem Control="{x:Type Rectangle}" GroupName="default" />
+            <reportEditor:ToolBoxItem Control="{x:Type Image}" GroupName="default" />
+        </x:Array>
+
+        <CollectionViewSource x:Key="groupedToolBoxItems" Source="{StaticResource toolBoxItems}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="GroupName"/>
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+
+    </UserControl.Resources>
+    
+    <Grid>       
+        <ListBox x:Name="lstControls" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Source={StaticResource groupedToolBoxItems}}">
+            <ListBox.GroupStyle>
+                <GroupStyle ContainerStyle="{StaticResource ContainerStyle}"/>
+            </ListBox.GroupStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Width="60">
+                        <Image Width="32" Height="32" Source="{Binding ToolBoxImage}" Stretch="Uniform" />
+                        <Viewbox Height="10">
+                            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Text="{Binding Name}"></TextBlock>
+                        </Viewbox>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
+        </ListBox>
+    </Grid>
+</UserControl>

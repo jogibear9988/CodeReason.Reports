@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicReport.VS2010", "Sam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeReason.Reports.Math", "CodeReason.Reports.Math\CodeReason.Reports.Math.csproj", "{95CCD8A0-D78A-4BB8-B579-A66ACEE0ABC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportEditor", "ReportEditor\ReportEditor.csproj", "{63B7871A-0052-4401-8E4C-0072526364F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{95CCD8A0-D78A-4BB8-B579-A66ACEE0ABC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95CCD8A0-D78A-4BB8-B579-A66ACEE0ABC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95CCD8A0-D78A-4BB8-B579-A66ACEE0ABC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63B7871A-0052-4401-8E4C-0072526364F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63B7871A-0052-4401-8E4C-0072526364F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63B7871A-0052-4401-8E4C-0072526364F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63B7871A-0052-4401-8E4C-0072526364F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

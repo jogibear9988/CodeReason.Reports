@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="ReportEditor.EditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:designer="clr-namespace:ICSharpCode.WpfDesign.Designer" xmlns:sd="http://sharpdevelop.net"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style x:Key="GridSplitterStyle" TargetType="{x:Type GridSplitter}">
+            <Setter Property="Background">
+                <Setter.Value>                    
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFE3EFFF" Offset="0"/>
+                            <GradientStop Color="#FFAFD2FF" Offset=".45"/>
+                        </LinearGradientBrush>                    
+                </Setter.Value>
+            </Setter>
+            <Setter Property="PreviewStyle">
+                <Setter.Value>
+                    <Style>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle Fill="#80000000"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridSplitter}">
+                        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="60*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <sd:DesignSurfaceWithoutZoom Margin="0,0,0,5" x:Name="reportHeader" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <GridSplitter Grid.Row="0" Style="{StaticResource GridSplitterStyle}" ShowsPreview="True" BorderThickness="1,0" Height="5" ResizeDirection="Rows"   HorizontalAlignment="Stretch" VerticalAlignment="Bottom" />
+        <sd:DesignSurfaceWithoutZoom Margin="0,0,0,5" x:Name="pageHeader" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <GridSplitter Grid.Row="1" Style="{StaticResource GridSplitterStyle}" ShowsPreview="True" BorderThickness="1,0" Height="5" ResizeDirection="Rows"   HorizontalAlignment="Stretch" VerticalAlignment="Bottom" />
+        <sd:DesignSurfaceWithoutZoom Margin="0,0,0,5" x:Name="page" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <GridSplitter Grid.Row="2" Style="{StaticResource GridSplitterStyle}" ShowsPreview="True" BorderThickness="1,0" Height="5" ResizeDirection="Rows"   HorizontalAlignment="Stretch" VerticalAlignment="Bottom" />
+        <sd:DesignSurfaceWithoutZoom Margin="0,0,0,5" x:Name="pageFooter" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <GridSplitter Grid.Row="3" Style="{StaticResource GridSplitterStyle}" ShowsPreview="True" BorderThickness="1,0" Height="5" ResizeDirection="Rows"   HorizontalAlignment="Stretch" VerticalAlignment="Bottom" />
+        <sd:DesignSurfaceWithoutZoom Margin="0,0,0,5" x:Name="reportFooter" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+    </Grid>
+</UserControl>
