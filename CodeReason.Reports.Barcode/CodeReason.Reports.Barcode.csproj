@@ -29,17 +29,51 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\KeyFile.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DataMatrix.net">
+      <HintPath>..\ExternalDlls\DataMatrix.net.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="Zen.Barcode.Core">
+      <HintPath>..\ExternalDlls\Zen.Barcode.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BarcodeBase.cs" />
+    <Compile Include="BarcodeC128.cs" />
+    <Compile Include="BarcodeCharInfo.cs" />
+    <Compile Include="BarcodeDataMatrix.cs" />
+    <Compile Include="BarcodeZenFramework.cs" />
+    <Compile Include="Document\InlineBarcodeC128.cs" />
+    <Compile Include="Document\InlineBarcodeDataMatrix.cs" />
+    <Compile Include="Document\InlineBarcodeZenFramework.cs" />
+    <Compile Include="Document\TableCellBarcodeC128.cs" />
+    <Compile Include="Document\TableCellBarcodeDataMatrix.cs" />
+    <Compile Include="Document\TableCellBarcodeZenFramework.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeReason.Reports\CodeReason.Reports.VS2010.csproj">
+      <Project>{87A8D936-AE11-40AA-8927-A414C2225991}</Project>
+      <Name>CodeReason.Reports.VS2010</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

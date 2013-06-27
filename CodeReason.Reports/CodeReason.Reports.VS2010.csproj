@@ -14,8 +14,8 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>KeyFile.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\KeyFile.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -40,11 +40,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DataMatrix.net">
-      <HintPath>ExternalDlls\DataMatrix.net.dll</HintPath>
-    </Reference>
     <Reference Include="itextsharp">
-      <HintPath>ExternalDlls\itextsharp.dll</HintPath>
+      <HintPath>..\ExternalDlls\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="ReachFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -67,24 +64,12 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Zen.Barcode.Core">
-      <HintPath>ExternalDlls\Zen.Barcode.Core.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Barcode\BarcodeBase.cs" />
-    <Compile Include="Barcode\BarcodeCharInfo.cs" />
-    <Compile Include="Barcode\BarcodeC128.cs" />
-    <Compile Include="Barcode\BarcodeDataMatrix.cs" />
-    <Compile Include="Barcode\BarcodeZenFramework.cs" />
     <Compile Include="Controls\BusyIndicator.cs" />
     <Compile Include="Controls\ThreadedVisualHost.cs" />
     <Compile Include="Controls\BusyDecorator.cs" />
     <Compile Include="Controls\VisualTargetPresentationSource.cs" />
-    <Compile Include="Document\Barcode\InlineBarcodeDataMatrix.cs" />
-    <Compile Include="Document\Barcode\InlineBarcodeZenFramework.cs" />
-    <Compile Include="Document\Barcode\TableCellBarcodeDataMatrix.cs" />
-    <Compile Include="Document\Barcode\TableCellBarcodeZenFramework.cs" />
     <Compile Include="Document\InlineAggregateValue.cs" />
     <Compile Include="Document\SectionReportFooter.cs" />
     <Compile Include="Document\SectionDataGroup.cs" />
@@ -114,8 +99,6 @@
     <Compile Include="Interfaces\IAggregateValue.cs" />
     <Compile Include="Interfaces\IInlineDocumentValue.cs" />
     <Compile Include="Interfaces\IHasValue.cs" />
-    <Compile Include="Document\Barcode\InlineBarcodeC128.cs" />
-    <Compile Include="Document\Barcode\TableCellBarcodeC128.cs" />
     <Compile Include="DocumentWalker.cs" />
     <Compile Include="Interfaces\IInlinePropertyValue.cs" />
     <Compile Include="Interfaces\IPropertyValue.cs" />
@@ -151,7 +134,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="KeyFile.snk" />
+    <None Include="..\KeyFile.snk">
+      <Link>Properties\KeyFile.snk</Link>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
