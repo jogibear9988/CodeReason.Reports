@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="itextsharp">
-      <HintPath>..\..\CodeReason.Reports\ExternalDlls\itextsharp.dll</HintPath>
+      <HintPath>..\..\ExternalDlls\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="ReachFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -116,9 +116,13 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CodeReason.Reports\CodeReason.Reports.VS2008.csproj">
-      <Project>{87A8D936-AE11-40AA-8927-A414C2225991}</Project>
-      <Name>CodeReason.Reports.VS2008</Name>
+    <ProjectReference Include="..\..\CodeReason.Reports.Barcode\CodeReason.Reports.Barcode.csproj">
+      <Project>{5f735c9e-b6c6-4424-a666-bbfaa73b4190}</Project>
+      <Name>CodeReason.Reports.Barcode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CodeReason.Reports\CodeReason.Reports.VS2010.csproj">
+      <Project>{87a8d936-ae11-40aa-8927-a414c2225991}</Project>
+      <Name>CodeReason.Reports.VS2010</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
