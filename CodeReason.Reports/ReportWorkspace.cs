@@ -114,6 +114,17 @@ namespace CodeReason.Reports
             return reportDocument;
         }
 
+        public ReportDocument LoadReport(Stream stream)
+        {
+            var reportDocument = new ReportDocument();
+            var reader = new StreamReader(stream);
+            reportDocument.XamlData = reader.ReadToEnd();
+            reportDocument.XamlImagePath = this.TemplateDirectory;
+            reader.Close();
+
+            return reportDocument;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
