@@ -28,7 +28,7 @@ namespace ReportEditor
         private static string baseScreen =
             "<Canvas x:Name=\"rootElement\" Background=\"White\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"\r\n        xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\r\n    </Canvas>";
 
-        private DesignSurfaceWithoutZoom[] designSurfaces;
+        private DesignSurface[] designSurfaces;
 
         public EditorView()
         {
@@ -64,7 +64,7 @@ namespace ReportEditor
 
         void designSurfaceWithoutZoom_DragOver(object sender, DragEventArgs e)
         {
-            var srv = sender as DesignSurfaceWithoutZoom;
+            var srv = sender as DesignSurface;
             if (e.Data.GetDataPresent("SelectedTag"))
                 return;
             var data = e.Data.GetData("ICSharpCode.WpfDesign.Designer.Services.CreateComponentTool") as CreateComponentTool;

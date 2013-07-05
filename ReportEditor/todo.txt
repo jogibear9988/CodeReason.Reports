@@ -1,0 +1,4 @@
+﻿-  Create a Simple DataSource Selector & Query Builder 
+-  Create WPF Components for Controls wich can be Used in a Report
+-  Editor View should have a Property with the Report XAML, wich will be parsed forward and Backward
+-  Preview Window for the Report!
