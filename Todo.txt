@@ -5,3 +5,4 @@
 - more barcodes
 - barcode text
 - charting
+- fix report editor
